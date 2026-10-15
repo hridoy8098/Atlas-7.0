@@ -1,14 +1,3 @@
-.env
 __pycache__/
 *.pyc
-*.pyo
 data/*.db
-data/user_profile/
-logs/*.log
-frontend/node_modules/
-frontend/dist/
-build/
-dist/
-Output/
-*.spec
-.DS_Store

@@ -137,6 +137,38 @@ def is_agent_command(parsed: Dict) -> bool:
     return any(keyword in intent or keyword in command for keyword in agent_keywords)
 
 
+FUN_INTENTS = {
+    "game_start", "game_move", "game_end", "game_score", "game_leaderboard", "game_restart",
+    "trivia_start", "trivia_answer", "trivia_score",
+    "hangman_start", "hangman_guess", "tic_tac_toe_start", "tic_tac_toe_move",
+    "guess_number_start", "guess_number_guess", "word_scramble", "word_scramble_solve",
+    "meme_generator", "meme_list", "meme_create_custom",
+    "joke_tell", "joke_random", "joke_dark", "joke_dad", "joke_bangla",
+    "music_play", "music_pause", "music_next", "music_previous", "music_stop",
+    "music_volume", "music_playlist", "music_queue", "music_search", "music_lyrics",
+    "video_download", "video_search", "video_info", "audio_play", "audio_record",
+    "image_generator", "image_edit", "image_filter", "image_resize", "image_convert", "image_compress",
+    "flip_coin", "roll_dice", "random_quote", "random_fact",
+}
+
+
+def _try_fun_command(parsed: Dict) -> str:
+    """Route fun/game intents through the FunCommandHandler router (Windows-safe, local)."""
+    intent = parsed.get("intent", "")
+    if intent not in FUN_INTENTS:
+        return None
+    try:
+        from backend.command_handlers.integration import router
+        resp = router.route(intent, parsed.get("entities", {}), handler_hint="fun")
+        msg = getattr(resp, "message", None)
+        if msg is None and isinstance(resp, dict):
+            msg = resp.get("message")
+        return msg
+    except Exception as e:
+        print(f"Fun router error: {e}")
+        return None
+
+
 def get_command_response(command: str) -> dict:
     """
     Main entry point for processing user commands
@@ -150,7 +182,10 @@ def get_command_response(command: str) -> dict:
     parsed['original_command'] = command
 
     # Step 2: Route to appropriate handler
-    if is_agent_command(parsed):
+    fun_response = _try_fun_command(parsed)
+    if fun_response:
+        response_text = fun_response
+    elif is_agent_command(parsed):
         response_text = handle_agent_command(command, parsed)
     else:
         response_text = handle_ai_fallback(command)
