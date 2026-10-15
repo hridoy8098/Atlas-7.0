@@ -224,12 +224,49 @@ class FileAgent(BaseAgent):
             success = self.rename_file(path, new_name)
             return {"success": success, "message": f"Renamed to {new_name}" if success else "Failed to rename"}
         if "backup" in intent or "backup" in cmd or "ব্যাকআপ" in cmd:
-            return {"success": True, "message": "Backup feature coming soon"}
+            return self.backup_path(path or query, entities.get("destination", ""))
         files = self.list_folder(path or str(self.home))
         return {"success": True, "files": files}
 
     # ===== HELPERS =====
-    
+
+    def backup_path(self, path: str, destination: str = "") -> Dict:
+        """Backup a file or folder as a timestamped zip archive."""
+        if not path:
+            return {"success": False, "message": "No path given for backup"}
+        src = Path(path).expanduser()
+        if not src.exists():
+            # Fall back to common locations (Downloads/Documents/Desktop)
+            for base in (self.downloads, self.documents, self.desktop):
+                candidate = base / src.name
+                if candidate.exists():
+                    src = candidate
+                    break
+        if not src.exists():
+            return {"success": False, "message": f"Path not found: {path}"}
+        dest_dir = Path(destination).expanduser() if destination else self.home / "AtlasBackups"
+        stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        archive = dest_dir / f"{src.name}_backup_{stamp}"
+        try:
+            dest_dir.mkdir(parents=True, exist_ok=True)
+            made = shutil.make_archive(str(archive), "zip",
+                                       root_dir=str(src.parent), base_dir=src.name)
+            size = self._human_size(os.path.getsize(made))
+            print(f"💾 Backup created: {made}")
+            return {"success": True,
+                    "message": f"Backup of '{src.name}' ({size}) created",
+                    "backup_file": made}
+        except Exception as e:
+            print(f"❌ Backup error: {e}")
+            return {"success": False, "message": f"Backup failed: {e}"}
+
+    def list_backups(self) -> List[str]:
+        """List all backups in the default backup folder."""
+        backup_dir = self.home / "AtlasBackups"
+        if not backup_dir.exists():
+            return []
+        return sorted(str(p) for p in backup_dir.glob("*_backup_*.zip"))
+
     def _human_size(self, size: int) -> str:
         for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
             if size < 1024:

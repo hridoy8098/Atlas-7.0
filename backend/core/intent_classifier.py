@@ -694,6 +694,31 @@ If unsure, use "chat" intent with low confidence."""
             (r"(?:git|গিট)\s+(status|pull|push|commit|branch|log|clone|checkout|merge)", "terminal_git", "git_command"),
             # Install packages
             (r"(?:pip|npm|yarn)\s+(install|uninstall|update|list)\s*(\S+)?", "terminal_pip", "package"),
+
+            # ===== FUN / GAMES (anchored ^ so they beat generic open/start patterns) =====
+            (r"^(?:(?:play|start|new|let'?s (?:play|start)|do you want to)\s+)?(?:(?:a|the)\s+)?(?:number|no)\s*[- ]?(?:guess(?:ing)?|গেস)\s*(?:game)?\b.*", "guess_number_start", None),
+            (r"^(?:(?:play|start|new)\s+)?(?:(?:a|the)\s+)?hangman\b.*", "hangman_start", None),
+            (r"^(?:(?:play|start|new|want to play)\s+)?(?:(?:a|the)\s+)?(?:tic[\s-]?tac[\s-]?toe|ttt)\b.*", "tic_tac_toe_start", None),
+            (r"^(?:(?:play|start|new)\s+)?(?:(?:a|the)\s+)?word\s*[- ]?scramble\b.*", "word_scramble", None),
+            (r"^(?:solve|unscramble)\s+(?:the\s+)?(?:scrambled?\s+word\s+)?(\w+)\b", "word_scramble_solve", "answer"),
+            (r"^(?:my\s+)?guess\s+is\s+(\d+)", "guess_number_guess", "number"),
+            (r"^(?:guess|answer)\s+(\d+)$", "guess_number_guess", "number"),
+            (r"^(?:guess|answer|letter)\s+([a-zA-Z])$", "hangman_guess", "letter"),
+            (r"^(?:move|cell|position)\s+([1-9])$", "tic_tac_toe_move", "position"),
+            (r"\btrivia\b(?:\s+(?:start|game|on|about)\s*(\w+))?", "trivia_start", "category"),
+            (r"^(?:answer|option)\s+(.+)$", "trivia_answer", "answer"),
+            (r"\b(?:tell(?:\s+me)?|say|any)\s+(?:a\s+|me\s+a\s+)?(?:funny\s+)?joke\b.*", "joke_tell", None),
+            (r"\bbangla\s+joke\b|\bজোক\s*দাও\b|\bমজার\s+কথা\s+বল", "joke_bangla", None),
+            (r"\bdad\s+joke\b", "joke_dad", None),
+            (r"\bdark\s+joke\b", "joke_dark", None),
+            (r"\bflip\s+(?:a\s+)?coin\b|\n?টস\s+দাও", "flip_coin", None),
+            (r"\broll\s+(?:the\s+)?dice\b|\bdice\s+roll\b", "roll_dice", None),
+            (r"\brandom\s+fact\b|\bdid\s+you\s+know\b", "random_fact", None),
+            (r"\brandom\s+quote\b|\bmotivational\s+quote\b", "random_quote", None),
+            (r"\bgenerate\s+a?\s*meme\b|\bmake\s+(?:me\s+)?a?\s*meme\b|\bmeme\s+(?:generate|create| banao|দাও|বানাও)", "meme_generator", None),
+            (r"\bstop\s+(?:the\s+)?game\b|\bend\s+(?:the\s+)?game\b", "game_end", None),
+            (r"\brestart\s+(?:the\s+)?game\b", "game_restart", None),
+            (r"\bscore\b|\bleaderboard\b", "game_score", None),
         ]
 
         for pattern, intent, entity_key in patterns:

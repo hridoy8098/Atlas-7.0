@@ -1,0 +1,108 @@
+/workspace/server.py:608: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+INFO:     Started server process [1467]
+INFO:     Waiting for application startup.
+OpenBLAS WARNING - could not determine the L2 cache size on this system, assuming 256k
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+============================================================
+🔍 ATLAS 6.0 v6.0.0 Configuration Check
+============================================================
+   Groq keys loaded:   0
+   Gemini keys loaded: 0
+   Default model:      llama-3.3-70b-versatile
+   Weather API: ❌
+   VirusTotal:  ❌
+   News API:    ❌
+   User: Boss
+   Debug: False
+============================================================
+⚠️ Frontend dist not found at /workspace/frontend/dist — serving API only
+============================================================
+🚀 Atlas 7.0 — FastAPI Server
+============================================================
+   App:  http://localhost:8000
+   API:  http://localhost:8000/api/health
+============================================================
+🔧 Loading modules...
+⚠️ pip install groq
+⚠️ pip install google-generativeai (optional, vision features এর জন্য)
+ℹ️ Gemini not installed - vision features disabled
+   Install: pip install google-generativeai
+✅ Atlas AI Engine initialized
+   Groq keys:   0
+   Gemini keys: 0
+⚠️ pip install pyaudio
+   Windows: pip install pipwin && pipwin install pyaudio
+❌ PyAudio not installed — microphone recording disabled
+🎤 Voice Input initialized
+   PyAudio: ❌ (recording disabled)
+   Wake word: 'atlas'
+   Rate: 16000Hz, Channels: 1
+⚠️ pip install edge-tts
+⚠️ pip install pygame (optional, audio playback এর জন্য)
+🔊 Voice Output initialized
+   Engine: Edge TTS (Free)
+   বাংলা: bn-BD-NabanitaNeural
+   English: en-US-JennyNeural
+   Pygame audio: ❌
+⚠️ pip install chromadb (optional, vector search এর জন্য)
+   SQLite tables ready
+🧠 Memory Manager initialized
+   Short-term: 20 items
+   Long-term: SQLite (/workspace/data/atlas_memory.db)
+   Vector DB: ❌ Disabled
+🌐 Language Detector initialized
+🧠 Context Engine initialized
+   Time: noon
+   Day: Thursday
+👁️ Context monitoring started
+⚡ Trigger: prayer_dhuhr → জোহরের নামাজের সময়।
+💡 Suggestion: দুপুরের খাবার সময়! 30 min break নিন।
+🎯 Command Parser initialized
+   Intents loaded: 46
+   Actions mapped: 58
+✅ AI Engine loaded
+📋 Session Manager initialized (timeout: 1800s)
+⚠️ pip install opencv-python
+⚠️ face_recognition not installed - using OpenCV fallback
+👤 Face Auth initialized (CV2:False, FR:False)
+🎤 Voice Auth initialized
+⚠️ pip install opencv-python
+🎭 Anti-Spoofing initialized ❌
+🔐 Authenticator initialized
+   Methods: PIN, Face, Voice, Guest
+🔒 Lock Screen initialized (idle timeout: 300s)
+🛡️ Privacy Guard initialized
+✅ PIN Auth loaded
+✅ Voice loaded
+✅ Face auth loaded
+💻 Terminal Agent initialized (hardened mode)
+✅ Agent Orchestrator Loaded with 12 agents
+✅ Agent Handler Loaded Successfully
+❌ Audio not available — continuous listening disabled
+✅ Voice continuous listening started
+✅ Atlas 7.0 ready!
+INFO:     127.0.0.1:57798 - "GET / HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57800 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57802 - "POST /api/command HTTP/1.1" 422 Unprocessable Entity
+
+📝 User: play number guess
+AI classification error: Expecting value: line 1 column 1 (char 0)
+🤖 Atlas: Interesting! Let me analyze...
+INFO:     127.0.0.1:57804 - "POST /api/command HTTP/1.1" 200 OK
+🔊 Speaking [en]: Interesting! Let me analyze......
+❌ Fallback TTS error: [Errno 2] No such file or directory: 'espeak'
+❌ Audio generation failed
+
+📝 User: start hangman
+AI classification error: Expecting value: line 1 column 1 (char 0)
+🤖 Agent Handler → Intent: open_app | Command: start hangman
+🤖 Atlas: ✅ Trying to open hangman...
+INFO:     127.0.0.1:57806 - "POST /api/command HTTP/1.1" 200 OK
+/bin/sh: 1: hangman: not found
